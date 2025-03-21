@@ -2,12 +2,7 @@
 import { expect, describe, it, beforeEach, vi } from "vitest";
 import { processData, isNumber, parseDataCell, parseData, prepareRenderRow, getColumnWidths } from "./utils";
 import { renderData } from './index'
-import { oneRowData, twoRowData } from "./data";
-
-const rawCSV = `city,population,area,density,country
-CityA,1000,100,10,CountryX
-CityB,2000,200,20,CountryY
-CityC,1500,150,15,CountryZ`;
+import { rawCSV, rawCSV2, rawCSV3, twoRowData } from "./data";
 
 describe("isNumber", () => {
     it("correctly identifies numbers", () => {
@@ -30,7 +25,7 @@ describe("parseDataCell", () => {
 
 describe("parseData", () => {
     it("parses CSV correctly", () => {
-        const result = parseData(rawCSV);
+        const result = parseData(rawCSV3);
         expect(result.labels).toEqual(["city", "population", "area", "density", "country"]);
         expect(result.data.length).toBe(3);
         expect(result.data[0]).toEqual(["CityA", 1000, 100, 10, "CountryX"]);
@@ -69,20 +64,20 @@ describe("processData", () => {
     });
 
     it("should return a table with 1 row in it", () => {
-        expect(processData(oneRowData).data).toEqual([
+        expect(processData(rawCSV).data).toEqual([
             ["Shanghai", 24256800, 6340, 3826, "China"],
         ]);
     });
 
     it("should return a table with 2 rows in it", () => {
-        expect(processData(twoRowData).data).toEqual([
+        expect(processData(rawCSV2).data).toEqual([
             ["Delhi", 16787941, 1484, 200, "India"],
             ["Shanghai", 24256800, 6340, 100, "China"],
         ]);
     });
 
     it("should return a non-sorted data if sortBy is not defined", () => {
-        expect(processData(twoRowData, 'unknownKey').data).toEqual([
+        expect(processData(rawCSV2, 'unknownKey').data).toEqual([
             ["Shanghai", 24256800, 6340, 100, "China"],
             ["Delhi", 16787941, 1484, 200, "India"],
         ]);
@@ -104,7 +99,7 @@ describe("renderData", () => {
     });
 
     it("renders sorted data with headers", () => {
-        const processed = processData(rawCSV, "density");
+        const processed = processData(rawCSV3, "density");
         renderData(processed, { showLabels: true });
         const columnsWidth = getColumnWidths(processed.labels, processed.data);
 
@@ -115,7 +110,7 @@ describe("renderData", () => {
     });
 
     it("renders data without headers", () => {
-        const processed = processData(rawCSV, "density");
+        const processed = processData(rawCSV3, "density");
         renderData(processed, { showLabels: false });
         const columnsWidth = getColumnWidths(processed.labels, processed.data);
 

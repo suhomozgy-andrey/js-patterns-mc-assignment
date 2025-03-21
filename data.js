@@ -1,9 +1,14 @@
-export const oneRowData = `city,population,area,density,country
+export const rawCSV = `city,population,area,density,country
 Shanghai,24256800,6340,3826,China`;
 
-export const twoRowData = `city,population,area,density,country
+export const rawCSV2 = `city,population,area,density,country
 Shanghai,24256800,6340,100,China
 Delhi,16787941,1484,200,India`;
+
+export const rawCSV3 = `city,population,area,density,country
+CityA,1000,100,10,CountryX
+CityB,2000,200,20,CountryY
+CityC,1500,150,15,CountryZ`;
 
 export const data = `city,population,area,density,country
 Shanghai,24256800,6340,3826,China
